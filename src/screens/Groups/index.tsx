@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export function Groups() {
   return (
     <View style={styles.container}>
-      <Text>TeamApp development starts</Text>
+      <Text>Group</Text>
     </View>
   );
 }
@@ -19,4 +19,3 @@ const styles = StyleSheet.create ({
     color: '#fff',
   },
 })
-//Babel plugin module resolver installed"
