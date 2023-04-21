@@ -3,29 +3,38 @@ import { FlatList } from 'react-native';
 import { Header } from '@components/Header';
 import { Highlight } from '@components/Highlight';
 import { GroupCard } from '@components/GroupCard';
+import { ListEmpty } from '@components/ListEmpty';
 
 import { Container } from './styles';
 
 
-
 export function Groups() {
-  const [groups, setGroups] = useState<string[]>(['A Team', 'Team GB', 'Team 3', '4Blue Team', '5 Guys', '6Sense ']);
+   
+  const [groups, setGroups] = useState<string[]>([]);
 
   return (
     <Container>
       <Header/>
       <Highlight 
-        title='TeamUp' 
-        subtitle='Create your team, challenge your friends, and dominate the competition'/>
- 
+        title="TeamUp" 
+        subtitle="Create your team, challenge your friends, and dominate the competition"/>
+
+      
       <FlatList 
         data={groups}
         keyExtractor = { item => item }
+
         renderItem = {({ item }) => (
           <GroupCard 
             title={ item }
           />
         )}
+        contentContainerStyle= {groups.length === 0 && { flex: 1 }}
+        ListEmptyComponent = { () => (
+          <ListEmpty 
+            message = "Cool! Let's add the first team!"
+          />
+        ) }
       />
     </Container>
   ); 
