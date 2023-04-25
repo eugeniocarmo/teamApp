@@ -1,3 +1,4 @@
+import { Input } from "@components/Input";
 import { Header } from "@components/Header";
 import { Container, Content, Icon } from "./styles";
 import { Highlight } from "@components/Highlight";
@@ -11,10 +12,12 @@ export function NewGroup() {
       <Icon />
       <Highlight
         title="New Team"
-        subtitle="Create a team to add players"
+        subtitle="Create team before adding players"
       />
+      <Input />
       <Button
         title="CREATE"
+        style={{ marginTop: 20}}
       />
       </Content>
       </Container>
