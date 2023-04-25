@@ -7,6 +7,7 @@ import { ListEmpty } from '@components/ListEmpty';
 import { Button } from '@components/Button';
 
 import { Container } from './styles';
+import { clear } from 'console';
 
 
 export function Groups() {
@@ -42,4 +43,4 @@ export function Groups() {
     />
     </Container>
   ); 
-}
+}clear
