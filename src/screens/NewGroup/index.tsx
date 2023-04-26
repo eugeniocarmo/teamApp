@@ -14,7 +14,9 @@ export function NewGroup() {
         title="New Team"
         subtitle="Create team before adding players"
       />
-      <Input />
+      <Input 
+        placeholder="Name of your team"
+      />
       <Button
         title="CREATE"
         style={{ marginTop: 20}}
