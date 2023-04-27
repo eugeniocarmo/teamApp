@@ -35,5 +35,24 @@
   "overrides": {
     "@types/react": "~18.0.14"
   },
-  "private": true
+  "private": true,
+  "description": "Playing teams managment app",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/eugeniocarmo/teamApp.git"
+  },
+  "keywords": [
+    "team",
+    "management",
+    "schedule",
+    "tasks",
+    "productivity",
+    "collaboration"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eugeniocarmo/teamApp/issues"
+  },
+  "homepage": "https://github.com/eugeniocarmo/teamApp#readme"
 }
