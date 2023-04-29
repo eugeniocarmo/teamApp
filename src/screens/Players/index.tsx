@@ -1,11 +1,12 @@
 import { Form } from "./styles";
-import { Header } from "@components/Header";
 import { Container } from "./styles";
-import { Highlight } from "@components/Highlight";
-import { ListEmpty } from "@components/ListEmpty";
 
-import { ButtonIcon } from "@components/ButtonIcon";
+import { Header } from "@components/Header";
+import { Highlight } from "@components/Highlight";
+import { Filter } from "@components/Filter";
 import { Input } from "@components/Input";
+import { ButtonIcon } from "@components/ButtonIcon";
+
 
 export function Players() {
   return(
@@ -26,6 +27,12 @@ export function Players() {
         <ButtonIcon 
           icon="add" />
       </Form>
+      <Filter 
+        title="Time A"
+        isActive
+      />
+      <Filter title="Time B"/>
+      
     </Container>
   );
 }
