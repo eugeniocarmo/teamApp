@@ -20,9 +20,10 @@ export const Subtitle = styled.Text`
   text-align: center;
   margin-bottom: 10px;
   
-  ${({ theme }) => css `
+  ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.MD}px;
-    font-family: ${theme.FONT_FAMILY.REGULAR};
     color: ${theme.COLORS.GRAY_300};
+    font-family: ${theme.FONT_FAMILY.REGULAR};
   `};
 `;
+
