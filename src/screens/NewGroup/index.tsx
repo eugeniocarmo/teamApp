@@ -8,19 +8,24 @@ export function NewGroup() {
   return (
     <Container>
       <Header showBackButton />
+
       <Content>
       <Icon />
+
       <Highlight
         title="New Team"
         subtitle="Create team before adding players"
       />
+
       <Input 
         placeholder="Name of your team"
       />
+
       <Button
         title="CREATE"
         style={{ marginTop: 20}}
       />
+      
       </Content>
       </Container>
   );

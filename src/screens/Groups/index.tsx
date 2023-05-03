@@ -38,6 +38,7 @@ export function Groups() {
             message = "Cool! Let's add the first team!"
           />
         ) }
+        showsVerticalScrollIndicator = {false}
       />
     <Button
       title='Create new Team'
