@@ -42,6 +42,7 @@ export function Groups() {
       />
     <Button
       title='Create new Team'
+      // onPress={handleNewGroup}
     />
     </Container>
   ); 
