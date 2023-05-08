@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { FlatList } from 'react-native'
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Input } from "@components/Input";
 import { Filter } from "@components/Filter";
@@ -14,16 +13,23 @@ import { Button } from '@components/Button';
 
 import { Container, Form, HeaderList,NumberOfPlayers } from "./styles";
 
+type RoutParams = {
+  group: string;
+}
+
 export function Players() {
   const [ team, setTeam ] = useState('Time A');
   const [players, setPlayers ] = useState([]);
+
+  const route = useRoute();
+  const { group } =  route.params as RoutParams;
 
   return(
     <Container>
       <Header showBackButton/>
 
       <Highlight
-      title="Team's name"
+      title={group}
       subtitle="Add your teammates and separate teams"
       />
       
@@ -39,7 +45,7 @@ export function Players() {
       </Form>
       <HeaderList>
         <FlatList 
-            data={['Time A', 'Time B', 'Time C']}
+            data={['Team A', 'Team B', 'Team C']}
             keyExtractor={item => item}
             renderItem={({item}) =>(
               <Filter  
