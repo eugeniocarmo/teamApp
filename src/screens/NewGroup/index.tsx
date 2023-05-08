@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Container, Content, Icon } from "./styles";
 
@@ -9,10 +10,12 @@ import { Button } from "@components/Button"
 
 export function NewGroup() {
 
+  const [group, setGroup] = useState('');
+
   const navigation = useNavigation();
 
   function handleNew(){
-    navigation.navigate('players', {group: 'myTeam'});
+    navigation.navigate('players', { group });
   }
   return (
     <Container>
@@ -28,14 +31,15 @@ export function NewGroup() {
 
       <Input 
         placeholder="Name of your team"
+        onChangeText={setGroup}
       />
 
       <Button onPress={handleNew}
         title="CREATE"
-        style={{ marginTop: 20}}
+        style={{ marginTop: 20 }}
       />
       
       </Content>
-      </Container>
+    </Container>
   );
 }
