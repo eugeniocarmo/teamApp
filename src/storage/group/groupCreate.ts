@@ -13,13 +13,13 @@ export async function groupCreate(newGroup: string){
     const groupAlreadyExists = storedGroups.includes(newGroup);
 
     if (groupAlreadyExists){
-      throw new AppError("A team with that name already exists");
+      throw new AppError("A team with that name already exists.");
     }
     
     const storage = JSON.stringify([...storedGroups, newGroup]);
     await AsyncStorage.setItem(GROUP_COLLECTION, storage);
 
-  }catch(error){
+  } catch(error){
     throw error;
   }
 } 
