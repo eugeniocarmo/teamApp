@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Alert, FlatList } from 'react-native'
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useState, useEffect, useRef } from 'react';
+import { Alert, FlatList, TextInput, Keyboard } from 'react-native'
+import { useRoute } from '@react-navigation/native';
 
 import { AppError } from '@utils/AppError';
 import { playerAddByGroup } from '@storage/player/playerAddByGroup';
@@ -27,16 +27,17 @@ export function Players() {
 
   const [ newPlayerName, setNewPlayerName ] = useState('');
 
-  const [ team, setTeam ] = useState('Team A');
+  const [ team, setTeam ] = useState('My Team');
   const [ players, setPlayers ] = useState<PlayerStorageDTO[]>([]);
 
   const route = useRoute();
   const { group } =  route.params as RoutParams;
 
+  const newPlayerNameInputRef = useRef<TextInput>(null);
 
   async function handleAddPlayer() {
     if (newPlayerName.trim().length === 0){
-      return Alert.alert("New Player","Add new player's name.");
+      return Alert.alert("New Player","Add a new player's name.");
     }
   
     const newPlayer = {
@@ -45,8 +46,14 @@ export function Players() {
     }
 
     try {
-      playerAddByGroup(newPlayer, group);
+      await playerAddByGroup(newPlayer, group);
+
+      newPlayerNameInputRef.current?.blur();
+      
+
+      setNewPlayerName('');
       fetchPlayersByTeam();
+      
     
     }catch(error) {
       if (error instanceof AppError){
@@ -80,24 +87,29 @@ useEffect(() => {
 
       <Highlight
       title={group}
-      subtitle="Choose your team and name of your teammates below"
+      subtitle="Choose your team and the name of players below."
       />
       
       <Form >
         <Input
+          inputRef={newPlayerNameInputRef}
           onChangeText={setNewPlayerName}
-          placeholder="Teammate name"
+          value={newPlayerName}
+          placeholder="Player name"
           autoCorrect={false}
+          onSubmitEditing={handleAddPlayer}
+          returnKeyType='done'
+
         />
         <ButtonIcon
           icon='add'
           onPress={handleAddPlayer}
-
         />
       </Form>
+
       <HeaderList>
         <FlatList 
-            data={['Team A', 'Team B']}
+            data={['My Team', 'Opponent Team']}
             keyExtractor={item => item}
             renderItem={({item}) =>(
               <Filter  
