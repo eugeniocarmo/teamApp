@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Alert, FlatList } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -16,7 +16,7 @@ import { PlayerCard } from '@components/PlayerCard';
 import { ListEmpty } from '@components/ListEmpty';
 import { Button } from '@components/Button';
 
-import { Container, Form, HeaderList,NumberOfPlayers } from "./styles";
+import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
 
 
 type RoutParams = {
@@ -27,7 +27,7 @@ export function Players() {
 
   const [ newPlayerName, setNewPlayerName ] = useState('');
 
-  const [ team, setTeam ] = useState('Time A');
+  const [ team, setTeam ] = useState('Team A');
   const [ players, setPlayers ] = useState<PlayerStorageDTO[]>([]);
 
   const route = useRoute();
@@ -46,10 +46,11 @@ export function Players() {
 
     try {
       playerAddByGroup(newPlayer, group);
+      fetchPlayersByTeam();
     
     }catch(error) {
       if (error instanceof AppError){
-        Alert.alert('New player, Error: ', error.message);
+        Alert.alert('New player', error.message);
       }else{
         console.log(error);
         Alert.alert('New player, Error:', 'Unable to add new player');
@@ -68,19 +69,24 @@ async function fetchPlayersByTeam(){
   }
 }
 
+useEffect(() => {
+  fetchPlayersByTeam();
+}, [team]);
+
+
   return(
     <Container>
       <Header showBackButton/>
 
       <Highlight
       title={group}
-      subtitle="Add your teammates and separate teams"
+      subtitle="Choose your team and name of your teammates below"
       />
       
       <Form >
         <Input
           onChangeText={setNewPlayerName}
-          placeholder="Team player name"
+          placeholder="Teammate name"
           autoCorrect={false}
         />
         <ButtonIcon
@@ -117,8 +123,6 @@ async function fetchPlayersByTeam(){
         ListEmptyComponent = {() => (
           <ListEmpty
             message="There are no people in this team!"
-
-          
           />
         )}
         showsVerticalScrollIndicator={false}
