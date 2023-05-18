@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { Alert, FlatList, TextInput, Keyboard } from 'react-native'
+import { Alert, FlatList, TextInput, Keyboard } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
 import { AppError } from '@utils/AppError';
 import { playerAddByGroup } from '@storage/player/playerAddByGroup';
 import { PlayerStorageDTO } from '@storage/player/PlayerStorageDTO';
 import { playerGetByGroupAndTeam } from '@storage/player/playersGetByGroupAndTeam';
+import { playerRemoveByGroup } from '@storage/player/playerRemoveByGroup';
 
 import { Input } from "@components/Input";
 import { Filter } from "@components/Filter";
@@ -26,7 +27,6 @@ type RoutParams = {
 export function Players() {
 
   const [ newPlayerName, setNewPlayerName ] = useState('');
-
   const [ team, setTeam ] = useState('My Team');
   const [ players, setPlayers ] = useState<PlayerStorageDTO[]>([]);
 
@@ -49,7 +49,6 @@ export function Players() {
       await playerAddByGroup(newPlayer, group);
 
       newPlayerNameInputRef.current?.blur();
-      
 
       setNewPlayerName('');
       fetchPlayersByTeam();
@@ -65,16 +64,28 @@ export function Players() {
     }
   }
 
-async function fetchPlayersByTeam(){
-  try{
-    const playersByTeam = await playerGetByGroupAndTeam(group, team);
-    setPlayers(playersByTeam);
 
-  }catch(error) {
-    console.log(error);
-    Alert.alert('Error: ', 'Unable to fetch players');
+  async function fetchPlayersByTeam(){
+    try{
+      const playersByTeam = await playerGetByGroupAndTeam(group, team);
+      setPlayers(playersByTeam);
+
+    }catch(error) {
+      console.log(error);
+      Alert.alert('Error: ', 'Unable to fetch players');
+    }
   }
-}
+
+  async function handlePlayerRemove(playerName: string){
+    try {
+      await playerRemoveByGroup(playerName, group)
+      fetchPlayersByTeam();
+
+    } catch(error) {
+    console.log(error);
+    Alert.alert('Removing Player', 'Unable to remove selected player');
+    }
+  }
 
 useEffect(() => {
   fetchPlayersByTeam();
@@ -120,7 +131,11 @@ useEffect(() => {
             )}
             horizontal
         />
-      <NumberOfPlayers>{players.length}</NumberOfPlayers>
+
+
+      <NumberOfPlayers>
+        {players.length}
+      </NumberOfPlayers>
       </HeaderList>
 
       <FlatList
@@ -129,7 +144,7 @@ useEffect(() => {
         renderItem={({item}) => (
           <PlayerCard 
             name={item.name}
-            onRemove={() => {}}
+            onRemove={() => {handlePlayerRemove(item.name)}}
           />
         )}
         ListEmptyComponent = {() => (
