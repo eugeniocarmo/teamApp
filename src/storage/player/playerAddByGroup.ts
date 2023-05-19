@@ -9,8 +9,10 @@ import { playersGetByGroup } from "./playersGetByGroup";
 export async function playerAddByGroup (newPlayer: PlayerStorageDTO, group: string){
   try {
     const storedPlayers = await playersGetByGroup(group);
+    console.log(storedPlayers);
 
     const playerAlreadyExists = storedPlayers.filter(player => player.name === newPlayer.name);
+    
     if (playerAlreadyExists.length > 0) {
       throw new AppError(`Player already exists`);
     } 

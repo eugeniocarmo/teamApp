@@ -7,7 +7,7 @@ type Props = {
   onRemove: () => void;
 }
 
-export function PlayerCard({name, onRemove}:Props) {
+export function PlayerCard({ name, onRemove }: Props) {
   return(
     <Container>
       <Icon 

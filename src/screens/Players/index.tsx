@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { Alert, FlatList, TextInput, Keyboard } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import { AppError } from '@utils/AppError';
 import { playerAddByGroup } from '@storage/player/playerAddByGroup';
 import { PlayerStorageDTO } from '@storage/player/PlayerStorageDTO';
 import { playerGetByGroupAndTeam } from '@storage/player/playersGetByGroupAndTeam';
 import { playerRemoveByGroup } from '@storage/player/playerRemoveByGroup';
+import { groupsRemoveByName } from '@storage/group/groupRemoveByName';
 
 import { Input } from "@components/Input";
 import { Filter } from "@components/Filter";
@@ -30,6 +31,7 @@ export function Players() {
   const [ team, setTeam ] = useState('My Team');
   const [ players, setPlayers ] = useState<PlayerStorageDTO[]>([]);
 
+  const navigation = useNavigation();
   const route = useRoute();
   const { group } =  route.params as RoutParams;
 
@@ -64,7 +66,6 @@ export function Players() {
     }
   }
 
-
   async function fetchPlayersByTeam(){
     try{
       const playersByTeam = await playerGetByGroupAndTeam(group, team);
@@ -86,6 +87,28 @@ export function Players() {
     Alert.alert('Removing Player', 'Unable to remove selected player');
     }
   }
+
+async function groupRemove() {
+  try {
+    await groupsRemoveByName(group);
+    navigation.navigate('groups');
+
+  } catch(error) {
+    console.log(error); 
+    Alert.alert( 'Removing Group: ', 'It was not possible to remove the group.');
+  }
+}
+
+async function handleGroupRemove(){
+  Alert.alert(
+    'Removing Group', 
+    'Would you like to remove the group?',
+    [
+     {text: 'No', style: 'cancel'},
+     {text: 'Yes', onPress: () => groupRemove()},
+    ]  
+  );
+}
 
 useEffect(() => {
   fetchPlayersByTeam();
@@ -161,6 +184,7 @@ useEffect(() => {
       <Button 
         title='Remove'
         type='SECONDARY'
+        onPress={handleGroupRemove}
       />
 
     </Container>
